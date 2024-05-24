@@ -1,0 +1,220 @@
+import numpy
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib as mpl
+from matplotlib import rcParams
+from matplotlib.pyplot import MultipleLocator
+recordmnist = pd.read_pickle("./tests/record/mnisteps1.csv")
+recordcifar10 = pd.read_pickle("./tests/record/cifar10eps11.csv")
+recordcifar100 = pd.read_pickle("./tests/record/cifar100eps1.csv")
+recordtiny = pd.read_pickle("./tests/record/Tinyeps1.csv")
+psnr_mnist = recordmnist['psnr']
+psnr_cifar10 = recordcifar10['psnr']
+psnr_cifar100 = recordcifar100['psnr']
+psnr_tiny = recordtiny['psnr']
+ssim_mnist = recordmnist['ssim']
+ssim_cifar10 = recordcifar10['ssim']
+ssim_cifar100 = recordcifar100['ssim']
+ssim_tiny = recordtiny['ssim']
+loss_mnist = recordmnist['loss']
+loss_cifar10 = recordcifar10['loss']
+loss_cifar100 = recordcifar100['loss']
+loss_tiny = recordtiny['loss']
+pre_mnist = recordmnist['pre']
+pre_cifar10 = recordcifar10['pre']
+pre_cifar100 = recordcifar100['pre']
+pre_tiny = recordtiny['pre']
+config = {
+    "font.family":'Times New Roman',  # 设置字体类型
+    "font.size": 24,
+    "mathtext.fontset":'stix',
+}
+#预测概率直方图
+# rcParams.update(config)
+# fig, ax = plt.subplots(1,4,figsize = (16,4))
+# l_x = ['0','1','2','3','4','5','6','7','8','9']
+# yticks = np.linspace(0, 1., 5)
+# ax[0].bar(l_x, pre_cifar10[0][0], width=1, edgecolor="white", linewidth=0.7)
+# # ax[0].set(ylim=(0, 1.))
+# ax[0].set_yticks(yticks)
+# ax[0].set_title('Original')
+# ax[0].set_xlabel("Category")
+# ax[0].set_ylabel("Prediction probability")
+# ax[1].bar(l_x, pre_cifar10[499][0], width=1, edgecolor="white", linewidth=0.7)
+# # ax[1].set(ylim=(0, 1.))
+# ax[1].set_yticks(yticks)
+# ax[1].set_title('500 Epoch')
+# ax[1].set_xlabel("Category")
+# ax[2].bar(l_x, pre_cifar10[999][0], width=1, edgecolor="white", linewidth=0.7)
+# # ax[2].set(ylim=(0, 1.))
+# ax[2].set_yticks(yticks)
+# ax[2].set_title(r'1000 Epoch')
+# ax[2].set_xlabel("Category")
+# ax[3].bar(l_x, pre_cifar10[3999][0], width=1, edgecolor="white", linewidth=0.7)
+# # ax[3].set(ylim=(0, 1.))
+# ax[3].set_yticks(yticks)
+# ax[3].set_title(r'4000 Epoch')
+# ax[3].set_xlabel("Category")
+# plt.tight_layout()
+# plt.savefig('./prediction_probability.jpg', format='jpg',dpi=300)
+# plt.show()
+
+#psnr-ssim-loss图
+# psnr_a = psnr
+# rcParams.update(config)
+# fig, ax = plt.subplots(1,2,figsize = (10,4))
+# x = np.arange(len(psnr_a))
+# ax[0].plot(x, psnr_a, linewidth=1,label = 'PSNR',marker = 'o',markevery=500)
+# ax[0].plot(ssim*100, linewidth=1,label = 'SSIM',marker = '^',markevery=500)
+# # ax[0].plot(c, linewidth=1,label = r'$L_{ce}$',marker = 'x',markevery=5)
+# # ax[0].plot(d, linewidth=1,label = r'$L_{ce}+L_{var}$',marker = '*',markevery=5)
+# ax[0].set_title("PSNR-SSIM")
+# ax[0].set_xlabel("Epoch")
+# ax[0].set_ylabel("PSNR")
+# ax[0].twinx()
+# ax[0].legend(fontsize=16)
+# ax[0].xaxis.set_major_locator(MultipleLocator(2000))
+# ax[1].plot(x, loss, linewidth=1,label = 'Loss',marker = '*',markevery=500)
+# # ax[1].plot(p_b, linewidth=1,label = 'GAN Random',marker = '^',markevery=5)
+# # ax[1].plot(p_c, linewidth=1,label = r'$L_{ce}$',marker = 'x',markevery=5)
+# # ax[1].plot(p_d, linewidth=1,label = r'$L_{ce}+L_{var}$',marker = '*',markevery=5)
+# ax[1].set_xlabel("Epoch")
+# ax[1].set_title("LOSS")
+# ax[1].legend(fontsize=16)
+# ax[1].xaxis.set_major_locator(MultipleLocator(2000))
+# plt.tight_layout()
+# # plt.rcParams['xtick.direction'] = 'in'
+# # plt.rcParams['ytick.direction'] = 'in'
+# # plt.savefig('./ablation2.jpg', format='jpg',dpi=100)
+# plt.show()
+
+
+#####画损失######################
+# fig, ax = plt.subplots(2,2,figsize = (16,12))
+# x = np.arange(len(loss_mnist))
+# ax[0][0].plot(x, loss_mnist, linewidth=1,label = 'Loss',marker = 'o',markevery=500)
+# ax[0][0].set_title("Loss of Mnist Image")
+# ax[0][0].set_xlabel("Epoch")
+# ax[0][0].set_ylabel("Loss Value")
+# ax[0][0].legend(fontsize=16)
+# ax[0][1].xaxis.set_major_locator(MultipleLocator(2000))
+# ax[0][1].plot(x, loss_cifar10, linewidth=1,label = 'Loss',marker = 'o',markevery=500)
+# ax[0][1].set_title("Loss of Cifar10 Image")
+# ax[0][1].set_xlabel("Epoch")
+# ax[0][1].set_ylabel("Loss Value")
+# ax[0][1].legend(fontsize=16)
+# ax[1][0].xaxis.set_major_locator(MultipleLocator(2000))
+# ax[1][0].plot(x, loss_cifar100, linewidth=1,label = 'Loss',marker = 'o',markevery=500)
+# ax[1][0].set_title("Loss of Cifar100 Image")
+# ax[1][0].set_xlabel("Epoch")
+# ax[1][0].set_ylabel("Loss Value")
+# ax[1][0].legend(fontsize=16)
+# ax[1][1].xaxis.set_major_locator(MultipleLocator(2000))
+# ax[1][1].plot(x, loss_tiny, linewidth=1,label = 'Loss',marker = 'o',markevery=500)
+# ax[1][1].set_title("Loss of TinyImageNet Image")
+# ax[1][1].set_xlabel("Epoch")
+# ax[1][1].set_ylabel("Loss Value")
+# ax[1][1].legend(fontsize=16)
+# ax[1][1].xaxis.set_major_locator(MultipleLocator(2000))
+# plt.tight_layout()
+# # plt.rcParams['xtick.direction'] = 'in'
+# # plt.rcParams['ytick.direction'] = 'in'
+# plt.savefig('./Figure/loss.jpg', format='jpg',dpi=300)
+# plt.show()
+#
+# print(ssim_cifar10)
+# ## psnr-ssim图
+# fig, ax = plt.subplots(2,2,figsize = (16,12))
+# x = np.arange(len(loss_mnist))
+# ax[0][0].plot(x, psnr_mnist, linewidth=1,label = 'PSNR',marker = 'o',markevery=500)
+# ax[0][0].plot(x, ssim_mnist*100, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax[0][0].set_title("Psnr and Ssim of Mnist")
+# ax[0][0].set_xlabel("Epoch")
+# ax[0][0].set_ylabel("PSNR Value (dB)")
+# ax[0][0].legend(fontsize=16)
+# ax[0][0].set_ylim([0, 100])
+# ax0 = ax[0][0].twinx()
+# # ax0.plot(x, ssim_mnist, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax0.set_ylabel("SSIM Value")
+# # ax0.legend(fontsize=16)
+# ax0.set_ylim([0, 1.])
+# ax[0][0].xaxis.set_major_locator(MultipleLocator(2000))
+# ax[0][1].plot(x, psnr_cifar10, linewidth=1,label = 'PSNR',marker = 'o',markevery=500)
+# ax[0][1].plot(x, ssim_cifar10*100, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax[0][1].set_title("Psnr and Ssim of Cifar10")
+# ax[0][1].set_xlabel("Epoch")
+# ax[0][1].set_ylabel("PSNR Value (dB)")
+# ax[0][1].legend(fontsize=16)
+# ax[0][1].set_ylim([0, 100])
+# ax1 = ax[0][1].twinx()
+# # ax1.plot(x, ssim_cifar10, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax1.set_ylabel("SSIM Value")
+# # ax1.legend(fontsize=16)
+# ax1.set_ylim([0, 1.])
+# ax[0][1].xaxis.set_major_locator(MultipleLocator(2000))
+# ax[1][0].plot(x, psnr_cifar100, linewidth=1,label = 'PSNR',marker = 'o',markevery=500)
+# ax[1][0].plot(x, ssim_cifar100*100, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax[1][0].set_title("Psnr and Ssim of Cifar100")
+# ax[1][0].set_xlabel("Epoch")
+# ax[1][0].set_ylabel("PSNR Value (dB)")
+# ax[1][0].legend(fontsize=16)
+# ax[1][0].set_ylim([0, 100])
+# ax2 = ax[1][0].twinx()
+# # ax2.plot(x, ssim_cifar100, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax2.set_ylabel("SSIM Value")
+# # ax2.legend(fontsize=16)
+# ax2.set_ylim([0, 1.])
+# ax[1][0].xaxis.set_major_locator(MultipleLocator(2000))
+# ax[1][1].plot(x, psnr_tiny, linewidth=1,label = 'PSNR',marker = 'o',markevery=500)
+# ax[1][1].plot(x, ssim_tiny*100, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax[1][1].set_title("Psnr and Ssim of TinyImageNet")
+# ax[1][1].set_xlabel("Epoch")
+# ax[1][1].set_ylabel("PSNR Value (dB)")
+# ax[1][1].legend(fontsize=16)
+# ax[1][1].set_ylim([0, 100])
+# ax[1][1].xaxis.set_major_locator(MultipleLocator(2000))
+# ax3 = ax[1][1].twinx()
+# # ax3.plot(x, ssim_tiny, linewidth=1,color = 'red',label = 'SSIM',marker = '*',markevery=500)
+# ax3.set_ylabel("SSIM Value")
+# # ax3.legend(fontsize=16)
+# ax3.set_ylim([0, 1.])
+# plt.tight_layout()
+# plt.savefig('./Figure/psnr-ssim.jpg', format='jpg',dpi=300)
+# plt.show()
+print(type(psnr_mnist[0]))
+psnr_mnist[0] = numpy.float64(80.)
+psnr_cifar10[0]= numpy.float64(80.)
+psnr_cifar100[0]= numpy.float64(80.)
+psnr_tiny[0]= numpy.float64(80.)
+# exit()
+fig, ax = plt.subplots(1,2,figsize = (10,4))
+x = np.arange(len(loss_mnist))
+ax[0].set_yticks([0, 30,40,50,60,70])
+ax[0].set_yticklabels(['0', '30', '40','50','60','$\infty$'])
+labels = ax[0].get_yticklabels()
+labels[5].set_size(18)
+ax[0].plot(x, psnr_mnist, linewidth=1,label = 'MNIST',marker = 'o',markevery=500)
+ax[0].plot(x, psnr_cifar10, linewidth=1,label = 'CIFAR10',marker = '*',markevery=500)
+ax[0].plot(x, psnr_cifar100, linewidth=1,label = 'CIFAR100',marker = '^',markevery=500)
+ax[0].plot(x, psnr_tiny, linewidth=1,label = 'TinyImageNet',marker = 's',markevery=500)
+ax[0].set_title("PSNR")
+ax[0].set_xlabel("Epoch")
+ax[0].set_ylabel("PSNR Value (dB)")
+ax[0].legend(fontsize=10,loc = 4)
+ax[0].set_ylim([0, 70])
+ax[0].xaxis.set_major_locator(MultipleLocator(2000))
+
+ax[1].plot(x, ssim_mnist, linewidth=1,label = 'MNIST',marker = 'o',markevery=500)
+ax[1].plot(x, ssim_cifar10, linewidth=1,label = 'CIFAR10',marker = '*',markevery=500)
+ax[1].plot(x, ssim_cifar100, linewidth=1,label = 'CIFAR100',marker = '^',markevery=500)
+ax[1].plot(x, ssim_tiny, linewidth=1,label = 'TinyImageNet',marker = 's',markevery=500)
+ax[1].set_title("SSIM")
+ax[1].set_xlabel("Epoch")
+ax[1].set_ylabel("SSIM Value")
+ax[1].legend(fontsize=10,loc = 4)
+ax[1].set_ylim([0, 1.])
+ax[1].xaxis.set_major_locator(MultipleLocator(2000))
+plt.tight_layout()
+plt.savefig('./Figure/psnr-ssim.png', format='png',dpi=300)
+plt.show()
